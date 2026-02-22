@@ -1,0 +1,29 @@
+# Configuration files with sensitive data
+config.yml
+
+# PEM files
+*.pem
+*.key
+
+# Log files
+*.log
+
+# Temp files
+/tmp/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
