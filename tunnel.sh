@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/opt/homebrew/bin/bash
 # AutoSSH Multi-Server Tunnel Manager
 # https://github.com/yourusername/autossh-multi-server
 
-set -euo pipefail
+set -eo pipefail
 
 # Script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
