@@ -189,9 +189,16 @@ interactive_setup() {
         pem=$(eval echo \$TUNNEL_${i}_PEM)
         eval "TUNNEL_${i}_PEM='$pem'"
 
-        echo -n "监控端口 (如: $((20100+i))): "
-        read -r monitor
-        eval "TUNNEL_${i}_MONITOR=\${monitor:-$((20100+i))}"
+        echo -n "使用监控端口? (可能被服务器阻止，输入 n 禁用) [Y/n]: "
+        read -r use_monitor
+        if [[ "$use_monitor" =~ ^[Nn]$ ]]; then
+            eval "TUNNEL_${i}_MONITOR=0"
+            echo "  (已禁用监控端口，使用 SSH 心跳检测)"
+        else
+            echo -n "监控端口 (如: $((20100+i))): "
+            read -r monitor
+            eval "TUNNEL_${i}_MONITOR=\${monitor:-$((20100+i))}"
+        fi
 
         # 端口转发
         while true; do
@@ -259,7 +266,13 @@ start_tunnel() {
     done
 
     # 启动 autossh
-    nohup autossh -M "$monitor" \
+    # 如果监控端口为 0，使用 -M 0 禁用监控端口，改用 SSH 心跳检测
+    local monitor_arg="$monitor"
+    if [[ "$monitor" == "0" ]]; then
+        monitor_arg="0"
+    fi
+
+    nohup autossh -M "$monitor_arg" \
         -i "$pem" \
         $forward_args \
         -N \
@@ -271,7 +284,12 @@ start_tunnel() {
         > "$log_file" 2>&1 &
 
     sleep 1
-    pgrep -f "autossh.*${monitor}" > "$pid_file" || true
+    # 对于 -M 0 模式，匹配进程的方式不同
+    if [[ "$monitor" == "0" ]]; then
+        pgrep -f "autossh.*-M 0.*${pem}" > "$pid_file" || true
+    else
+        pgrep -f "autossh.*${monitor}" > "$pid_file" || true
+    fi
 
     if [[ -f "$pid_file" ]] && [[ -s "$pid_file" ]]; then
         echo "    ✓ 已启动，PID: $(cat $pid_file)"
