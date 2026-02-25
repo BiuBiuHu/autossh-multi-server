@@ -27,3 +27,6 @@ config.yml
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Config file with sensitive data
+.env
