@@ -70,7 +70,7 @@ Example interaction:
 -----------------------------------
 隧道名称 (如: server1): my-server
 SSH 用户名 (默认: root):
-SSH 主机地址 (如: 1.2.3.4): 101.47.158.134
+SSH 主机地址 (如: 1.2.3.4): 192.168.1.100
 SSH 私钥路径 (如: ~/.ssh/id_rsa): ~/.ssh/mykey.pem
 监控端口 (如: 20100):
 此隧道有几个端口转发? [1-5]: 2
@@ -91,7 +91,7 @@ TUNNEL_COUNT=2
 
 TUNNEL_0_NAME=my-server
 TUNNEL_0_PEM=/Users/you/.ssh/mykey.pem
-TUNNEL_0_HOST=root@101.47.158.134
+TUNNEL_0_HOST=root@192.168.1.100
 TUNNEL_0_MONITOR=20129
 TUNNEL_0_FORWARD_COUNT=2
 TUNNEL_0_FORWARD_0_LOCAL=20128
@@ -205,7 +205,7 @@ TUNNEL_COUNT=2
 
 TUNNEL_0_NAME=my-server
 TUNNEL_0_PEM=/Users/you/.ssh/mykey.pem
-TUNNEL_0_HOST=root@101.47.158.134
+TUNNEL_0_HOST=root@192.168.1.100
 TUNNEL_0_MONITOR=20129
 TUNNEL_0_FORWARD_COUNT=2
 TUNNEL_0_FORWARD_0_LOCAL=20128
